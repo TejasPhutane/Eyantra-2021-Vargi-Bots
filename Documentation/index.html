@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Vargi-Bots</title>
+        <link href="css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/purebasic.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href=".">Vargi-Bots</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#abstract">Abstract</a></li>
+        <li class="main "><a href="#youtube-video">YouTube Video</a></li>
+            <li><a href="#ur5-arms">UR5 Arms</a></li>
+            <li><a href="#cameras">Cameras</a></li>
+            <li><a href="#packages">Packages</a></li>
+        <li class="main "><a href="#implementation">Implementation</a></li>
+        <li class="main "><a href="#rqt-graph">RQT Graph</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="abstract"><strong><em>Abstract</em></strong></h1>
+<hr />
+<p>Automation and Visualisation are taking over various aspects of day-to-day life. In order to reduce human errors and increase work efficiency, many industries are opting for automation. The theme for this year has been based on this realization. The current theme of e-Yantra 2020-21 is based on the visualization of Industry 4.0 wherein our theme, in particular, is called Vargi BOTS. The name takes its root from the Sanskrit word Vargikaran (वर्गीकरण) which means segregation. The theme is set in the abstraction of a warehouse management system designed in a 3D dynamic simulator, Gazebo which is used efficiently to simulate robots in complex environments.</p>
+<p>The arena used for this theme is an automated warehouse where we use two industrial robotic arms to pick and place the packages according to the orders received. As the theme draws its inspiration from Industry 4.0 it focuses heavily on automation. One of the arms is used to pick and place the packages on the conveyor belt. The other, placed at the end of the conveyor belt, is used to place the packages into their respective bins. Each bin represents a destination for the package. As the packages are sent out from the warehouse there will also be alerts sent to the user via email notifying them about the package being shipped from the warehouse.</p>
+<p>The challenge for the participants is that they have to deliver as many high-priority packages as possible. The controller is supposed to make smart decisions in order to finish the task efficiently. Along with decision-making, precision and collision avoidance is also equally important for the task to complete.</p>
+<hr />
+<h1 id="youtube-video"><em>YouTube Video</em></h1>
+<p>[<a href="http://www.youtube.com/watch?v=c36n3vFqOrQ" title="Task 5"><img alt="Youtube" src="http://img.youtube.com/vi/c36n3vFqOrQ/0.jpg" /></a>)</p>
+<hr />
+<ul>
+<li>
+<h4 id="ur5-arms">UR5 Arms</h4>
+</li>
+</ul>
+<p>These are used to carry out the pick and place functions. The packages are kept in a shelf from which they are supposed to be picked upon receiving an order. The picked package is then placed on the conveyor belt and sent towards the other Arm. The most important part to focus for this arm was the precision with which it would pick the package. The chances of collisions with external objects were high. If the package is not properly attached to the Vaccum Gripper it may collide with the shelf or other packages in it. Hence the trajectory set is such that it picks the package from the shelf and places it on the conveyor belt without any collision. It also ensures that the package is in perfect alignment with the vaccum gripper before it is turned on.</p>
+<p><img alt="" src="index.assets/Screenshot from 2021-02-19 15-51-14.png" /></p>
+<p>The second UR5 Arm picks the packages from the conveyor belt and drops them into their respective bins. The chances of collisions are the greates in UR5 arms. We have tried our best to set a trajectory that would avoid any collision of the arm, with or without the package. While doing this we have not neglected the fact that time taken in making the drop is just as crucial. the trajectory used is collision free and the shortest one possible.</p>
+<ul>
+<li>
+<h4 id="cameras">Cameras</h4>
+</li>
+</ul>
+<p>The colour and QR code decoding(Computer Vision techniques) is done by the 2D camera located in front of the shelf, behind the first UR5 arm. This arm is responsible for recognizing the colour of the package and hence its priority. After receiving the order, this camera is used to ensure we have picked the right package.</p>
+<p><img alt="" src="index.assets/Screenshot from 2021-02-19 15-50-07-1613830887333.png" /></p>
+<p>The two logical cameras are located above the conveyor belt in front of each UR5 arm. These cameras give only the package name ie., package001 etc. These cameras have been used by us to co-ordinate between the two UR5 arms as well as keeping a record of number of packages picked by the second arm. </p>
+<p><img alt="" src="index.assets/Screenshot from 2021-02-19 15-52-36.png" /></p>
+<ul>
+<li>
+<h4 id="packages">Packages</h4>
+</li>
+</ul>
+<p>Red - <strong>High Priority Package</strong> </p>
+<p>The High Priority Package symbolizes packages such as medicines.</p>
+<p><img alt="" src="/home/niyati/catkin_ws/src/Documentation/docs/index.assets/RED.PNG" /></p>
+<p>Yellow - <strong>Medium Priority Package</strong></p>
+<p>The Medium Priority Package symbolizes packages such as packaged food.</p>
+<p><img alt="" src="/home/niyati/catkin_ws/src/Documentation/docs/index.assets/YELLOW.PNG" /></p>
+<p>Green - <strong>Low Priority Package</strong></p>
+<p>The Low Priority Package symbolizes packages such as clothes.</p>
+<p><img alt="" src="/home/niyati/catkin_ws/src/Documentation/docs/index.assets/GREEN.PNG" /></p>
+<hr />
+<h1 id="implementation"><strong><em>Implementation</em></strong></h1>
+<ol>
+<li>
+<p>The task begins with starting the Gazebo Environment along with Rviz. Gazebo is the environment where the entire simulation would take place while Rviz is the window that we have used to monitor the movement of the UR5 arms and the collisions of various elements used in this task.</p>
+</li>
+<li>
+<p>The first component to get activated is the 2D camera (Cam1 in our codes). This camera detects not only the number of packages but also their QR codes from where we can get the details of the package (Item, SKU, location, Priority etc.)</p>
+</li>
+<li>
+<p>This camera is then to detect 9 of 12 packages, instead of which we have opted to detect all 12 of the packages in the shelf. The reason to detect all packages was to get the location of all packages and trying out faster trajectories by trial and error.  </p>
+</li>
+<li>
+<p>As soon as the packages are detected the IMS Inventory sheet is updated of all the detected packages. This is done by subscribing to the MQTT client. MQTT client publishes the data to the Inventory sheet displaying the Timestamp and details of the package scanned from the 2D camera.</p>
+</li>
+<li>
+<p>A total of 9 orders are published after one minute of Simulation time, each republished on a unique ID. These orders are published randomly and at various intervals of time. The orders are sorted as the priority as soon as they are received.  </p>
+</li>
+<li>
+<p>Then we process the orders according to the priority order (Red- Yellow- Green) and place the corresponding packages on the conveyor. Here, Logical Camera_1 placed at the top of the conveyor belt registers the package being placed as well but we have not made much use of this camera for our code.</p>
+</li>
+<li>
+<p>Once the package is placed on the conveyor belt by UR5_1 the ‘Order Dispatched’ sheet is updated and an Email of the order being dispatched is sent. This sheet is also a part of the IMS. The email address used for this task is the team ID account we have created for E-Yantra.</p>
+</li>
+<li>
+<p>The package placed on the conveyor belt is then picked by UR5_2 once it comes into the field of vision of Logical Camera_2. As soon as this camera registers the package arriving the conveyor belt is stopped till UR5_2 has picked up the package.  </p>
+</li>
+<li>
+<p>It then gets sorted into its respective bin followed by another email being sent of the order getting delivered.</p>
+</li>
+<li>
+<p>Additionally, the ‘Order Shipped’ sheet is updated in the IMS which keeps track of all the orders shipped and their time.</p>
+</li>
+<li>
+<p>The WMS sheet is update simultaneously throughout the task which acts as a Summary sheet of the IMS also called the Dashboard. This used to reflect on the real-time values.</p>
+<hr />
+<h1 id="rqt-graph"><em>RQT Graph</em></h1>
+<p><img alt="" src="index.assets/rosgraph.png" /></p>
+</li>
+</ol></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"search": 83, "next": 78, "help": 191, "previous": 80};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2021-02-25 11:40:58
+-->
