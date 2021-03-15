@@ -1,0 +1,51 @@
+<launch>
+
+    <!-- Launch Task-5 Simulation Environment in Gazebo -->
+    <include file="$(find pkg_vb_sim)/launch/task6_simulation.launch" />
+
+    
+    <!-- Launch Moveit Group Node -->
+    <include file="$(find pkg_vb_sim)/launch/two_ur5_move_group.launch" />
+
+
+    <!-- Launch Moveit Scene Node -->
+  <group ns="ur5_1">
+    <arg name="scene_file_1" default="$(find pkg_task5)/config/rviz/shelf.scene"/> 
+    <node name = "moveit_publish_scene_from_text" pkg= "moveit_ros_planning" type = "moveit_publish_scene_from_text" args= "$(arg scene_file_1)"/>
+  </group>
+
+  <group ns="ur5_2">
+    <arg name="scene_file_2" default="$(find pkg_task5)/config/rviz/ur5_1_with_bins.scene"/> 
+    <node name = "moveit_publish_scene_from_text" pkg= "moveit_ros_planning" type = "moveit_publish_scene_from_text" args= "$(arg scene_file_2)"/>
+  </group>
+
+    <!--Load ROS IOT bridge parameters-->
+    <rosparam file ="$(find pkg_ros_iot_bridge)/config/config_pyiot.yaml"/>
+
+    <!-- Run Task-5  Camera Package Type ROS Node  -->
+    <!-- This node has service to get packages type in the shelf using camera1 -->
+    <node name= "node_t5_qr_decode_service" pkg= "pkg_task5" type="node_t5_qr_decode_service.py" output="screen"/> 
+
+    <!-- Run Task-5  ur5_2 Package Sort ROS Node -->
+    <!-- This node is used for controlling the ur5_2 robot, sort packages into its respctive coloured bins and add/remove packages in rviz scene -->
+    <node name= "node_t5_ur5_2_package_sort" pkg= "pkg_task5" type="node_t5_ur5_2_package_sort.py" output="screen"/>
+
+    <!-- Run Task-5  ur5_1 Package Pick ROS Node-->
+    <!--This node is used for controlling the ur5_1 robot, pick and place packages from shelf to conveyor belt and add/remove packages in rviz scene -->
+    <node name= "node_t5_ur5_1_package_pick" pkg= "pkg_task5" type="node_t5_ur5_1_package_pick.py" output="screen"/>
+    
+    <!-- Run Task-5 ROS IOT Bridge Node-->
+    <!--This node is used for IOT related tasks -->    
+    <node name="node_action_server_ros_iot_bridge" pkg="pkg_ros_iot_bridge" type="node_action_server_ros_iot_bridge.py" output="screen"/>
+
+    <!-- Recording Bag File for Submission -->
+    <arg name="record" default="false"/>
+    <arg name="rec_name" default="t5.bag"/>
+
+    <group if="$(arg record)">
+        <node name="rosbag_record_pick" pkg="rosbag" type="record"
+       args="record -O $(find pkg_task5)/bag_files/$(arg rec_name) --chunksize=20 /eyrc/vb/ur5_1/vacuum_gripper/logical_camera/ur5_1 /eyrc/vb/ur5_2/vacuum_gripper/logical_camera/ur5_2" output="screen"/>
+   </group>
+
+
+</launch>

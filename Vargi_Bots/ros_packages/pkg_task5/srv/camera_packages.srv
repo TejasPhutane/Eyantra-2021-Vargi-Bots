@@ -1,0 +1,3 @@
+bool get_package_type
+---
+string pack_type
